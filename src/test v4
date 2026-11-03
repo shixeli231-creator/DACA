@@ -1,0 +1,90 @@
+#include <iostream>
+#include <vector>
+#include <unordered_map>
+#include <chrono>
+#include <queue>
+#include <algorithm>
+#include <random>
+#include <cstdint>
+
+using namespace std;
+using namespace chrono;
+
+const uint32_t NUM_GROUPS = 1000;
+const uint32_t WORK_ITERATIONS = 20000;
+const vector<uint32_t> STATES = {3, 9, 15, 21};
+
+uint64_t heavy_component(uint32_t a) {
+    uint64_t x = 0x9E3779B185EBCA87ULL ^ a;
+    for (uint32_t i = 0; i < WORK_ITERATIONS; i++) {
+        x += (static_cast<uint64_t>(a) + i) * 0xC2B2AE3D27D4EB4FULL;
+        x = (x ^ (x >> 23)) * 0x165667B19E3779F9ULL;
+    }
+    return x;
+}
+
+uint64_t heavy_compute(uint32_t a, uint32_t b) {
+    uint64_t base = heavy_component(a);
+    if (a % 4 != 0) return base + b;
+    return base + static_cast<uint64_t>(b) * b;
+}
+
+struct Edge { uint32_t destination; int64_t delta; };
+unordered_map<uint32_t, vector<Edge>> graph;
+
+void init_graph() {
+    graph[3].push_back({9, 6});
+    graph[9].push_back({15, 6});
+    graph[15].push_back({21, 6});
+}
+
+bool find_path(uint32_t source, uint32_t target, int64_t& total_delta) {
+    queue<pair<uint32_t, int64_t>> q;
+    unordered_map<uint32_t, bool> visited;
+    q.push({source, 0}); visited[source] = true;
+
+    while (!q.empty()) {
+        auto current = q.front(); q.pop();
+        if (current.first == target) { total_delta = current.second; return true; }
+        for (const auto& edge : graph[current.first]) {
+            if (!visited[edge.destination]) {
+                visited[edge.destination] = true;
+                q.push({edge.destination, current.second + edge.delta});
+            }
+        }
+    }
+    return false;
+}
+
+int main() {
+    init_graph();
+    vector<pair<uint32_t, uint32_t>> reqs;
+    for (uint32_t a = 1; a <= NUM_GROUPS; a++)
+        for (auto b : STATES) reqs.push_back({a, b});
+
+    mt19937 g(42); shuffle(reqs.begin(), reqs.end(), g);
+
+    unordered_map<uint64_t, uint64_t> cache;
+    uint64_t rel_hits = 0;
+
+    for (auto [a, b] : reqs) {
+        uint64_t key = (static_cast<uint64_t>(a) << 32) | b;
+        if (cache.count(key)) continue;
+
+        if (a % 4 != 0) {
+            auto group = cache.find((static_cast<uint64_t>(a) << 32) | 3);
+            if (group != cache.end()) {
+                int64_t delta = 0;
+                if (find_path(3, b, delta)) {
+                    cache[key] = group->second + delta;
+                    rel_hits++;
+                    continue;
+                }
+            }
+        }
+        cache[key] = heavy_compute(a, b);
+    }
+
+    cout << "Relationship hits: " << rel_hits << "\n";
+    return 0;
+}
