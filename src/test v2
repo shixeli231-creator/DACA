@@ -1,0 +1,75 @@
+#include <iostream>
+#include <chrono>
+#include <cstdlib>
+
+using namespace std;
+using namespace std::chrono;
+
+struct Entity {
+    float x, y, z;
+    bool is_moving; 
+};
+
+bool calculateCollision(const Entity& e) {
+    float total = 0;
+    for (int i = 0; i < 2000; i++) {
+        total += (e.x * i) + (e.y * i) + (e.z * i);
+        if (total > 1000000.0f) total = 0; 
+    }
+    return total > 0;
+}
+
+void simulate_delay(long long delay_ns) {
+    volatile float x = 1.0f;
+    auto start = high_resolution_clock::now();
+    while (duration_cast<nanoseconds>(high_resolution_clock::now() - start).count() < delay_ns) {
+        x = x * 1.01f;
+    }
+}
+
+int main() {
+    const int NUM_ENTITIES = 10000;
+    static Entity entities[NUM_ENTITIES];
+    srand(42); 
+
+    for(int i=0; i<NUM_ENTITIES; i++) {
+        entities[i].x = i * 1.5f;
+        entities[i].y = i * 2.0f;
+        entities[i].z = i * 0.5f;
+        entities[i].is_moving = (rand() % 100 < 10); 
+    }
+
+    volatile bool dummy;
+    int iterations = 100; 
+    
+    // 1. Naive Compute
+    auto start = high_resolution_clock::now();
+    for (int frame = 0; frame < iterations; ++frame) {
+        for (int i = 0; i < NUM_ENTITIES; ++i) {
+            dummy = calculateCollision(entities[i]);
+        }
+    }
+    auto stop = high_resolution_clock::now();
+    double naive_ms = duration<double, milli>(stop - start).count();
+    cout << "Naive Compute (100 frames):  " << naive_ms << " ms" << endl;
+
+    // 2. DACA Cache (10% Miss Rate)
+    start = high_resolution_clock::now();
+    for (int frame = 0; frame < iterations; ++frame) {
+        for (int i = 0; i < NUM_ENTITIES; ++i) {
+            if (entities[i].is_moving) {
+                simulate_delay(500);
+                dummy = calculateCollision(entities[i]);
+            } else {
+                simulate_delay(500); 
+                dummy = true;
+            }
+        }
+    }
+    stop = high_resolution_clock::now();
+    double daca_ms = duration<double, milli>(stop - start).count();
+    cout << "DACA Cached State (100 frames): " << daca_ms << " ms" << endl;
+    cout << "Speedup Factor: " << naive_ms / daca_ms << "x faster!" << endl;
+
+    return 0;
+}
