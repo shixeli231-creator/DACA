@@ -1,0 +1,77 @@
+#include <iostream>
+#include <chrono>
+#include <unordered_map>
+#include <vector>
+#include <cstdint>
+#include <iomanip>
+
+using namespace std;
+using namespace std::chrono;
+
+const uint32_t NUM_UNIQUE_INPUTS = 2000;
+const uint32_t WORK_ITERATIONS = 20000;
+
+uint64_t heavy_component(uint32_t a) {
+    uint64_t x = 0x9E3779B185EBCA87ULL ^ a;
+    for (uint32_t i = 0; i < WORK_ITERATIONS; i++) {
+        x += (static_cast<uint64_t>(a) + i) * 0xC2B2AE3D27D4EB4FULL;
+        x = (x ^ (x >> 23)) * 0x165667B19E3779F9ULL;
+    }
+    return x;
+}
+
+uint64_t heavy_compute(uint32_t a, uint32_t b) {
+    return heavy_component(a) + (b - 3);
+}
+
+uint64_t make_key(uint32_t a, uint32_t b) {
+    return (static_cast<uint64_t>(a) << 32) | b;
+}
+
+struct Request { uint32_t a; uint32_t b; };
+
+int main() {
+    vector<Request> workload;
+    for (uint32_t a = 1; a <= NUM_UNIQUE_INPUTS; a++) {
+        workload.push_back({a, 3});
+        workload.push_back({a, 9});
+    }
+
+    unordered_map<uint64_t, uint64_t> cache;
+    uint64_t checksum = 0;
+    uint32_t exact_hits = 0, rel_hits = 0, calc = 0;
+
+    auto start = steady_clock::now();
+    for (const auto& req : workload) {
+        uint64_t key = make_key(req.a, req.b);
+        auto exact = cache.find(key);
+
+        if (exact != cache.end()) {
+            exact_hits++;
+            checksum += exact->second;
+            continue;
+        }
+
+        if (req.b == 9) {
+            uint64_t source_key = make_key(req.a, 3);
+            auto source = cache.find(source_key);
+            if (source != cache.end()) {
+                uint64_t derived = source->second + 6;
+                cache.emplace(key, derived);
+                rel_hits++;
+                checksum += derived;
+                continue;
+            }
+        }
+
+        uint64_t value = heavy_compute(req.a, req.b);
+        cache.emplace(key, value);
+        checksum += value;
+        calc++;
+    }
+    auto stop = steady_clock::now();
+
+    cout << "Time: " << duration<double, milli>(stop - start).count() << " ms\n";
+    cout << "Rel Hits: " << rel_hits << " | Calcs: " << calc << "\n";
+    return 0;
+}
