@@ -1,11 +1,13 @@
 Distributed Associative Computing Architecture (DACA)
 
 A Preliminary Computational Reuse Model and Software Benchmark
+
 📖 Overview
 
 Modern computing architectures waste significant energy recalculating structurally similar mathematical operations. DACA is a proposed hardware architecture that addresses this by caching mathematical relationships (execution tables) rather than just exact data values.
 
 Through a series of multi-threaded C++ benchmarks, this research models DACA's performance across memory latencies, dynamic workloads, and multi-core contention. By distributing memory across a parallel dataflow highway and utilizing a hybrid algebraic-fallback policy, DACA bypasses heavy computations while maintaining 100% mathematical correctness.
+
 🏆 Key Published Results
 
 (Verified against Naive baselines and highly optimized Exact-Result Caches)
@@ -35,6 +37,7 @@ g++ -O3 -pthread -std=c++17 daca_adaptive_unified_benchmark.cpp -o daca_suite
 To run the hardware/memory benchmark menu:
 g++ -O3 -pthread -std=c++17 daca_benchmark_menu.cpp -o daca_menu
 ./daca_menu
+
 ⚠️ Important Interpretation & Limitations
 
 The benchmark named "DACA" is a software model of selected reuse rules. It does not model physical layout, power, real interconnect latency, transistor behavior, or measured silicon. Results depend on the synthetic workload, data structures, compiler, and host machine.
