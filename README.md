@@ -1,3 +1,8 @@
+![C++](https://img.shields.io/badge/Language-C%2B%2B17-blue.svg)
+![License](https://img.shields.io/badge/License-MIT-green.svg)
+![Tests](https://img.shields.io/badge/Tests-10%2F10%20PASS-brightgreen.svg)
+![Platform](https://img.shields.io/badge/Platform-Android%20%7C%20Linux-lightgrey.svg)
+
 Distributed Associative Computing Architecture (DACA)
 
 A Preliminary Computational Reuse Model and Software Benchmark
