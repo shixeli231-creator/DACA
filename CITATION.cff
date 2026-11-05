@@ -1,0 +1,23 @@
+    family-names: Huseynli
+    given-names: Shikhali
+    alias: "shixeli231-creator"
+    title: "DACA: Distributed Associative Computing Architecture"
+    version: 1.0.0
+    date-released: 2026-11-04
+    url: "https://github.com/shixeli231-creator/DACA"
+    license: "MIT OR CC-BY-4.0"
+    type: software
+    keywords:
+
+    computer architecture
+
+    hardware memoization
+
+    computational reuse
+
+    associative memory
+
+    multi-threaded benchmarking
+    abstract: "A preliminary computational reuse model and C++ software benchmark for the Distributed Associative Computing Architecture (DACA). This work evaluates algebraic relationship caching, non-linear fallback policies, and distributed multi-core topologies against optimized exact-caching baselines."
+
+
