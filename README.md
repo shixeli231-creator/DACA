@@ -46,8 +46,18 @@ The benchmark named "DACA" is a software model of selected reuse rules. It does 
 
     Memory Accounting: Logical memory byte counts are estimates; allocator overhead is not included.
 
-📜 License
+📚 Citation and Prior Art
 
-    The C++ source code is licensed under the MIT License.
+This repository serves as the public Prior Art for the DACA architecture. The architecture, experimental design, and mathematical analysis were conceived and implemented by [YOUR FULL LEGAL NAME] in 2026.
 
-    The research paper, documentation, and architectural concepts are licensed under Creative Commons Attribution 4.0 (CC BY 4.0). You are free to share and adapt this material for any purpose, provided you give appropriate credit to the original author.
+If you reference this work, or use the concepts of relationship-based caching, the sharded highway, or the hybrid non-linear fallback policy, please cite the author appropriately.
+
+    Author: Shikhali Huseynli
+
+    GitHub: @shixeli231-creator
+
+    Year: 2026
+
+License:
+The C++ source code is licensed under the MIT License.
+The research paper, documentation, and architectural concepts are licensed under Creative Commons Attribution 4.0 (CC BY 4.0). You are free to share and adapt this material for any purpose, provided you give appropriate credit to the original author.
