@@ -1,6 +1,3 @@
-### 📊 Performance Visualizations
-
-```mermaid
 xychart-beta
     title "DACA Speedup vs. Baselines (Higher is Better)"
     x-axis ["Unified Suite", "Warped Data", "vs Exact Cache", "Highway (Naive)", "Compositional"]
