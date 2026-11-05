@@ -1,0 +1,14 @@
+[Unit]
+Description=DACA relationship-memory daemon (per-user prototype)
+After=default.target
+
+[Service]
+Type=simple
+ExecStart=%h/.local/bin/daca_relationship_runtime --daemon --socket %t/daca-relationship.sock --memory-mib 128
+Restart=on-failure
+RestartSec=2
+NoNewPrivileges=true
+MemoryMax=256M
+
+[Install]
+WantedBy=default.target

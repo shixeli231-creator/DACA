@@ -1,0 +1,16 @@
+DACA relationship daemon ready
+  Socket: /run/user/1000/daca-relationship-demo-1000.sock
+  RAM budget: 33554432 bytes
+  Built-in compositional schemas: sum_i64, concat_utf8
+DACA relationship-memory statistics
+  Lookups:             7
+  Exact hits:          2
+  Relationship hits:   2
+  Misses:              3
+  Rejected:            0
+  Learned records:     5
+  Derived records:     2
+  Evictions:           0
+  Invalidations:       2
+  Records in RAM:      5
+  Accounted RAM:       4312 / 33554432 bytes
