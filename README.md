@@ -4,7 +4,9 @@ A Preliminary Computational Reuse Model and Software Benchmark
 
 📖 Overview
 
-Modern computing architectures waste significant energy recalculating structurally similar mathematical operations. DACA is a proposed hardware architecture that addresses this by caching mathematical relationships (execution tables) rather than just exact data values.
+Modern computing architectures waste significant energy recalculating structurally similar computational operations. DACA is a proposed hardware architecture that addresses this by caching computational relationships and state transitions (execution tables) rather than just exact data values.
+
+While the initial benchmarks in this repository focus on algebraic arithmetic as a proof-of-concept, the DACA architecture is inherently data-agnostic. Because it caches dependencies and execution graphs, it can be applied to string parsing, state machines, DOM layouts, and AI inference—any workload where the same logical transitions are repeated.
 
 Through a series of multi-threaded C++ benchmarks, this research models DACA's performance across memory latencies, dynamic workloads, and multi-core contention. By distributing memory across a parallel dataflow highway and utilizing a hybrid algebraic-fallback policy, DACA bypasses heavy computations while maintaining 100% mathematical correctness.
 
