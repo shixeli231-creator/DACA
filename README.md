@@ -39,10 +39,6 @@ To run the 10-test logic suite:
 g++ -O3 -pthread -std=c++17 daca_adaptive_unified_benchmark.cpp -o daca_suite
 ./daca_suite
 
-To run the hardware/memory benchmark menu:
-g++ -O3 -pthread -std=c++17 daca_benchmark_menu.cpp -o daca_menu
-./daca_menu
-
 ⚠️ Important Interpretation & Limitations
 
 The benchmark named "DACA" is a software model of selected reuse rules. It does not model physical layout, power, real interconnect latency, transistor behavior, or measured silicon. Results depend on the synthetic workload, data structures, compiler, and host machine.
