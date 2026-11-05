@@ -48,7 +48,7 @@ The benchmark named "DACA" is a software model of selected reuse rules. It does 
 
 📚 Citation and Prior Art
 
-This repository serves as the public Prior Art for the DACA architecture. The architecture, experimental design, and mathematical analysis were conceived and implemented by [YOUR FULL LEGAL NAME] in 2026.
+This repository serves as the public Prior Art for the DACA architecture. The architecture, experimental design, and mathematical analysis were conceived and implemented by Shikhali Huseynli in 2026.
 
 If you reference this work, or use the concepts of relationship-based caching, the sharded highway, or the hybrid non-linear fallback policy, please cite the author appropriately.
 
