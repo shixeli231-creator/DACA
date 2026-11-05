@@ -26,8 +26,6 @@ The repository contains two main C++ entry points:
 
     Adaptive Unified Benchmark (daca_adaptive_unified_benchmark.cpp): A 10-test standalone suite evaluating DACA's logical inference, dynamic invalidation, and algebraic composition against Naive and Exact-Cache baselines.
 
-    Master Benchmark Menu (daca_benchmark_menu.cpp): A unified menu runner that executes 6 multi-threaded hardware and memory benchmarks (Highway Macrobenchmark, Compositional Fairness, Adaptive Memory, CPU Cooperation, Parallel Requests, and Contention).
-
 🚀 Build and Run
 
 To run the 10-test logic suite:
